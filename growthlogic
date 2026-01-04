@@ -1,0 +1,104 @@
+// Growth stage configuration
+export interface GrowthStage {
+  id: number;
+  name: string;
+  minMarketCap: number;
+  maxMarketCap: number;
+  image: string;
+}
+
+export const GROWTH_STAGES: GrowthStage[] = [
+  {
+    id: 1,
+    name: "Dormant Seed",
+    minMarketCap: 0,
+    maxMarketCap: 50000,
+    image: "/seed.png"
+  },
+  {
+    id: 2,
+    name: "Cracked Seed",
+    minMarketCap: 50000,
+    maxMarketCap: 150000,
+    image: "/cracked.png"
+  },
+  {
+    id: 3,
+    name: "Sprout",
+    minMarketCap: 150000,
+    maxMarketCap: 400000,
+    image: "/sprout.png"
+  },
+  {
+    id: 4,
+    name: "Young Plant",
+    minMarketCap: 400000,
+    maxMarketCap: 900000,
+    image: "/young.png"
+  },
+  {
+    id: 5,
+    name: "Flowering Plant",
+    minMarketCap: 900000,
+    maxMarketCap: 2500000,
+    image: "/flower.png"
+  },
+  {
+    id: 6,
+    name: "Tree",
+    minMarketCap: 2500000,
+    maxMarketCap: 7500000,
+    image: "/tree.png"
+  },
+  {
+    id: 7,
+    name: "Fruit Bearing Tree",
+    minMarketCap: 7500000,
+    maxMarketCap: Infinity,
+    image: "/fruit.png"
+  }
+];
+
+/**
+ * Determines the current growth stage based on market cap
+ * Returns the stage object that matches the market cap range
+ */
+export function getCurrentStage(marketCap: number): GrowthStage {
+  for (const stage of GROWTH_STAGES) {
+    if (marketCap >= stage.minMarketCap && marketCap < stage.maxMarketCap) {
+      return stage;
+    }
+  }
+  // Default to final stage if market cap exceeds all ranges
+  return GROWTH_STAGES[GROWTH_STAGES.length - 1];
+}
+
+/**
+ * Gets the next stage information
+ * Returns null if already at final stage
+ */
+export function getNextStage(currentStage: GrowthStage): GrowthStage | null {
+  const currentIndex = GROWTH_STAGES.findIndex(s => s.id === currentStage.id);
+  if (currentIndex < GROWTH_STAGES.length - 1) {
+    return GROWTH_STAGES[currentIndex + 1];
+  }
+  return null;
+}
+
+/**
+ * Formats market cap with commas and $ sign
+ */
+export function formatMarketCap(value: number): string {
+  return `$${value.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+}
+
+/**
+ * Determines the highest stage ever reached (non-reversing growth)
+ * Compares current stage with previously achieved stage
+ */
+export function getHighestStage(
+  currentStage: GrowthStage,
+  previousHighestStage: GrowthStage
+): GrowthStage {
+  return currentStage.id > previousHighestStage.id ? currentStage : previousHighestStage;
+}
