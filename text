@@ -1,0 +1,17 @@
+seed-growth-tracker/
+├── app/
+│   ├── page.tsx          (main page)
+│   ├── layout.tsx        (already exists)
+│   └── globals.css       (already exists)
+├── lib/
+│   └── growthLogic.ts    (growth stage calculator)
+├── components/
+│   └── PlantVisual.tsx   (plant animation component)
+└── public/
+    ├── seed.png
+    ├── cracked.png
+    ├── sprout.png
+    ├── young.png
+    ├── flower.png
+    ├── tree.png
+    └── fruit.png
